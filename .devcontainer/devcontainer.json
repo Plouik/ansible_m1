@@ -1,23 +1,20 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/debian
 {
-	"name": "Debian",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/base:bookworm",
-	"features": {
-		"ghcr.io/devcontainers/features/terraform:1": {},
-		"ghcr.io/hspaans/devcontainer-features/ansible-lint:2": {},
-		"ghcr.io/devcontainers-extra/features/ansible:2": {}
-	},
-	"runArgs": ["--network=host"],
-	"remoteUser": "root",
-	"postCreateCommand": "pip3 install -r .devcontainer/requirements.txt --break-system-packages && activate-global-python-argcomplete",
-	"customizations": {
-        "vscode": {
-            "extensions": [
-                "redhat.ansible",
-				"hashicorp.terraform"
-            ]
-        }
+  "name": "Debian",
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+  "image": "mcr.microsoft.com/devcontainers/base:bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/terraform:1": {},
+    "ghcr.io/hspaans/devcontainer-features/ansible-lint:2": {},
+    "ghcr.io/devcontainers-extra/features/ansible:2": {}
+  },
+  "runArgs": ["--network=host"],
+  "remoteUser": "root",
+  "postCreateCommand": "pip3 install -r .devcontainer/requirements.txt --break-system-packages && activate-global-python-argcomplete",
+  "customizations": {
+    "vscode": {
+      "extensions": ["redhat.ansible", "hashicorp.terraform", "trunk.io"]
     }
+  }
 }
