@@ -13,8 +13,26 @@
 - name: Update db servers
   hosts: two
   become: true
-
   tasks:
+
+    - name: Créer un répertoire
+      ansible.builtin.file:
+        path: /home/vagrant/custom_html
+        state: directory
+        mode: '0600'
+
+    - name: Créer un fichier avec du contenu
+      ansible.builtin.copy:
+        dest: /home/vagrant/custom_html/index.html
+        content: |
+          <html>
+            <body>
+              <h1>Bienvenue sur mon site</h1>
+              <p>Créé le {{ ansible_date_time.date }}</p>
+            </body>
+          </html>
+        mode: '0600'
+
     - name: Ensure postgresql is at the present version
       ansible.builtin.apt:
         name: postgresql
