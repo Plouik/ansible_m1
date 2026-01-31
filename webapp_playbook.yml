@@ -1,48 +1,69 @@
 ---
+- name: Update hosts entry
+  hosts: all
+  become: true
+  tasks:
+    - name: Add IP address of all hosts to all hosts
+      ansible.builtin.lineinfile:
+        dest: /etc/hosts
+        regexp: ".*{{ item }}$"
+        line: "{{ hostvars.{{ item }}.ansible_host }} {{item}}"
+        state: present
+      with_items: "{{ groups.all }}"
+
 - name: Update web servers
   hosts: one
   become: true
   tasks:
     - name: Ensure nginx is at the present version
       ansible.builtin.apt:
-        name: nginx
+        name: "{{ item }}"
         update_cache: true
         state: present
+      loop:
+        - nginx
+        - curl
+
+    - name: Copier l'index.html dans le dossier dédié
+      ansible.builtin.copy:
+        dest: /etc/nginx/conf.d/default.conf
+        src: nginx.conf
+        owner: root
+        group: root
+        mode: "0644"
 
 - name: Update db servers
   hosts: two
   become: true
   tasks:
+    - name: Ensure postgresql is absent
+      ansible.builtin.apt:
+        name: postgresql
+        state: absent
+
+    - name: Ensure nginx is at the present version
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        update_cache: true
+        state: present
+      loop:
+        - nginx
+        - curl
+
+    - name: Copier l'index.html dans le dossier dédié
+      ansible.builtin.template:
+        dest: /var/www/html/index.html
+        src: index.html.j2
+        owner: root
+        group: root
+        mode: "0644"
 
     - name: Créer un répertoire
       ansible.builtin.file:
         path: /home/vagrant/custom_html
-        state: directory
-        owner: vagrant
-        group: vagrant
-        mode: '0700'
+        state: absent
 
-    - name: Créer un fichier avec du contenu
-      ansible.builtin.copy:
-        dest: /home/vagrant/custom_html/index.html
-        content: |
-          <html>
-            <body>
-              <h1>Bienvenue sur mon site</h1>
-              <p>Créé le {{ ansible_date_time.date }}</p>
-            </body>
-          </html>
-        owner: vagrant
-        group: vagrant
-        mode: '0600'
-
-    - name: Ensure postgresql is at the present version
-      ansible.builtin.apt:
-        name: postgresql
-        update_cache: true
-        state: present
-
-    - name: Ensure that postgresql is started
+    - name: Ensure that nginx is started
       ansible.builtin.service:
-        name: postgresql
+        name: nginx
         state: started
