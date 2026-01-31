@@ -2,7 +2,6 @@
 - name: Update web servers
   hosts: one
   become: true
-
   tasks:
     - name: Ensure nginx is at the present version
       ansible.builtin.apt:
@@ -19,7 +18,9 @@
       ansible.builtin.file:
         path: /home/vagrant/custom_html
         state: directory
-        mode: '0600'
+        owner: vagrant
+        group: vagrant
+        mode: '0700'
 
     - name: Créer un fichier avec du contenu
       ansible.builtin.copy:
@@ -31,6 +32,8 @@
               <p>Créé le {{ ansible_date_time.date }}</p>
             </body>
           </html>
+        owner: vagrant
+        group: vagrant
         mode: '0600'
 
     - name: Ensure postgresql is at the present version
