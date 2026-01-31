@@ -1,0 +1,16 @@
+---
+- name: Configure local ssh
+  hosts: localhost
+  become: true
+
+  tasks:
+    - name: Add a host in the configuration
+      community.general.ssh_config:
+        remote_user: vagrant
+        host: "{{ item.host }}"
+        hostname: "{{ item.hostname }}"
+        identity_file: "{{ item.identity_file }}"
+        state: present
+      loop:
+        - { host: one, hostname: 192.168.33.10, identity_file: /root/.ssh/one }
+        - { host: two, hostname: 192.168.33.11, identity_file: /root/.ssh/two }

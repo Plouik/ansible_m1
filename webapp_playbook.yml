@@ -1,0 +1,27 @@
+---
+- name: Update web servers
+  hosts: one
+  become: true
+
+  tasks:
+    - name: Ensure nginx is at the present version
+      ansible.builtin.apt:
+        name: nginx
+        update_cache: true
+        state: present
+
+- name: Update db servers
+  hosts: two
+  become: true
+
+  tasks:
+    - name: Ensure postgresql is at the present version
+      ansible.builtin.apt:
+        name: postgresql
+        update_cache: true
+        state: present
+
+    - name: Ensure that postgresql is started
+      ansible.builtin.service:
+        name: postgresql
+        state: started
