@@ -14,7 +14,10 @@
   "postCreateCommand": "chmod 700 .devcontainer/setup.sh && ./.devcontainer/setup.sh",
   "customizations": {
     "vscode": {
-      "extensions": ["redhat.ansible", "hashicorp.terraform", "trunk.io"]
+      "extensions": ["redhat.ansible", "hashicorp.terraform", "trunk.io"],
+      "settings": {
+        "ansible.python.interpreterPath": "/bin/python3"
+      }
     }
   }
 }
