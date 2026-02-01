@@ -1,0 +1,4 @@
+---
+all:
+  vars:
+    nginx_remove_default: false

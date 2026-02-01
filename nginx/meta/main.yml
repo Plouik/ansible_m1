@@ -1,5 +1,7 @@
 #SPDX-License-Identifier: MIT-0
 galaxy_info:
+  role_name: nginx
+  namespace: test
   author: your name
   description: your role description
   company: your company (optional)
