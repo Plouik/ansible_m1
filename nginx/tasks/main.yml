@@ -26,10 +26,6 @@
     mode: "0644"
   loop: "{{ lookup('ansible.builtin.fileglob', 'templates/'+ansible_hostname+'/html/*', wantlist=True) }}"
 
-- name: Print a debug message
-  ansible.builtin.debug:
-    msg: "test {{nginx_remove_default}}"
-
 - name: Supprimier le server nginx par default
   ansible.builtin.file:
     path: /etc/nginx/sites-enabled/default
