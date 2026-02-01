@@ -1,0 +1,20 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for common
+- name: Print a debug message
+  ansible.builtin.debug:
+    msg: "{{ hostvars['one']['ansible_eth1']['ipv4']['address'] }}"
+
+- name: Add IP address of all hosts to all hosts
+  ansible.builtin.lineinfile:
+    dest: /etc/hosts
+    regexp: ".*{{ item }}$"
+    line: "{{ hostvars[item]['ansible_eth1']['ipv4']['address'] }} {{item}}"
+    state: present
+  with_items: "{{ groups.all }}"
+
+- name: Ensure curl is at the present version
+  ansible.builtin.apt:
+    name: curl
+    update_cache: true
+    state: present
