@@ -2,3 +2,4 @@ ansible-dev-tools
 ansible-creator
 argcomplete
 PARAMIKO
+passlib
