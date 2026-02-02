@@ -5,77 +5,73 @@
   tasks:
     - name: Afficher le nom de l'host défini dans l'inventaire
       ansible.builtin.debug:
-        msg: "Inventory name: {{ inventory_hostname }}"
+        msg: "host inventory name: "
 
-    - name: Afficher le hostname de la machine
-      ansible.builtin.debug:
-        msg: "hostname: {{ ansible_hostname }}"
+    # - name: Afficher le hostname de la machine
+    #   ansible.builtin.debug:
+    #     msg: "hostname: "
 
-    - name: Afficher le 1er element de la liste users
-      ansible.builtin.debug:
-        msg: "1st user: {{ users[0] }}"
+    # - name: Afficher le 1er element de la liste users
+    #   ansible.builtin.debug:
+    #     msg: "1st user: "
 
-    - name: Afficher le lastname du 2nd element de la liste users
-      ansible.builtin.debug:
-        msg: "lastname 2nd user: {{ users[1].lastname }}"
+    # - name: Afficher le lastname du 2nd element de la liste users
+    #   ansible.builtin.debug:
+    #     msg: "lastname 2nd user: "
 
-    - name: Afficher la taille de la liste user
-      ansible.builtin.debug:
-        msg: "taille user list: {{ users | list | length }}"
+    # - name: Afficher la taille de la liste user
+    #   ansible.builtin.debug:
+    #     msg: "taille user list: "
 
-    - name: Afficher uniquement le nom des utilisateurs en MAJUSCULE
-      ansible.builtin.debug:
-        msg: "user name majuscule: {{ users | map(attribute='name') | upper }}"
+    # - name: Afficher uniquement le nom des utilisateurs en MAJUSCULE
+    #   ansible.builtin.debug:
+    #     msg: "user name majuscule: "
 
-    - name: Selectionner l'element de la liste user dont le lastname est "dupond"
-      ansible.builtin.debug:
-        msg: "item name with lastname dupond: {{ users | selectattr('lastname', 'equalto', 'dupond') }}"
+    # - name: Selectionner l'element de la liste user dont le lastname est "dupond"
+    #   ansible.builtin.debug:
+    #     msg: "item name with lastname dupond: "
 
-    - name: Afficher l'ipv4 par defaut de l'host (eth0)
-      ansible.builtin.debug:
-        msg: "default ipv4: {{ ansible_default_ipv4.address }}"
+    # - name: Afficher l'ipv4 par defaut de l'host (eth0)
+    #   ansible.builtin.debug:
+    #     msg: "default ipv4: "
 
-    - name: Afficher l'ip privée de l'host utilisée pour se connecter(ce n'est pas eth0)
-      ansible.builtin.debug:
-        msg: "private ip: {{ ansible_eth1.ipv4.address }}"
+    # - name: Afficher l'ip privée de l'host utilisée pour se connecter(ce n'est pas eth0)
+    #   ansible.builtin.debug:
+    #     msg: "private ip: "
 
-    - name: Afficher l'ip privée de l'host one depuis tout les hosts
-      ansible.builtin.debug:
-        msg: "ip privee one: {{ hostvars['one']['ansible_eth1']['ipv4']['address'] }}"
+    # - name: Afficher l'ip privée de l'host one depuis tout les hosts
+    #   ansible.builtin.debug:
+    #     msg: "ip privee one: "
 
-    - name: Afficher la distribution linux de la machine
-      ansible.builtin.debug:
-        msg: "linux distribution: {{ ansible_distribution }}"
+    # - name: Afficher la distribution linux de la machine
+    #   ansible.builtin.debug:
+    #     msg: "linux distribution: "
 
-    - name: Afficher l'utilisateur courrant de la sessions ansible'
-      ansible.builtin.debug:
-        msg: "ansible session user: {{ ansible_env.USER }}"
+    # - name: Afficher l'utilisateur courrant de la sessions ansible'
+    #   ansible.builtin.debug:
+    #     msg: "ansible session user: "
 
-    - name: Cette tache s'execute uniquement lorsque l'hostname est 'one' et affiche son hostname
-      ansible.builtin.debug:
-        msg: "hostname for one only: {{ ansible_hostname }}"
-      when: ansible_hostname == 'one'
+    # - name: Cette tache s'execute uniquement lorsque l'hostname est 'one' et affiche son hostname
+    #   ansible.builtin.debug:
+    #     msg: "hostname for one only: "
+    #   when: 
 
-    - name: Cette tache s'execute uniquement lorsque l'ip eth1 de la vm se termine par 11 (correspond à l'host 2)
-      ansible.builtin.debug:
-        msg: "hostname for one only: {{ ansible_hostname }}"
-      when: ansible_eth1.ipv4.address | regex_search('11$') is not none
-      register: ip_filter_debug
+    # - name: Cette tache s'execute uniquement lorsque l'ip eth1 de la vm se termine par 11 (correspond à l'host 2)
+    #   ansible.builtin.debug:
+    #     msg: "hostname for one only: "
+    #   when: 
 
-    - name: Cette tache s'execute uniquement si la tache précente à été 'skipped' et affiche les données de celle-ci (doit se jouer sur l'host 1)
-      ansible.builtin.debug:
-        msg: "last task data: {{ ip_filter_debug }}"
-      when: ip_filter_debug is skipped
+    # - name: Cette tache s'execute uniquement si la tache précente à été 'skipped' et affiche les données de celle-ci (doit se jouer sur l'host 1)
+    #   ansible.builtin.debug:
+    #     msg: "last task data: "
+    #   when: 
 
-    - name: Cette tache boucle pour chaque element de la liste users et affiche l'element
-      ansible.builtin.debug:
-        msg: "user: {{ item }}"
-      loop: "{{ users }}"
+    # - name: Cette tache boucle pour chaque element de la liste users et affiche l'element
+    #   ansible.builtin.debug:
+    #     msg: "user: "
+    #   loop: 
 
-    - name: Cette tache boucle pour chaque element de la liste users, pour plus de clartée la variable item doit être renomer en 'user_data'. La tache affiche le nom, prenom de l'utilisateur et l'index de la boucle sur un même str
-      ansible.builtin.debug:
-        msg: "user: {{ user.name }} {{ user.lastname }}, index: {{ index }}"
-      loop: "{{ users }}"
-      loop_control:
-        loop_var: user
-        index_var: index
+    # - name: Cette tache boucle pour chaque element de la liste users, pour plus de clartée la variable item doit être renomer en 'user_data'. La tache affiche le nom, prenom de l'utilisateur et l'index de la boucle sur un même str
+    #   ansible.builtin.debug:
+    #     msg: "user: , index: "
+    #   loop: 
