@@ -4,13 +4,13 @@
   hosts: all
   become: true
   tasks:
-    - name: debug 
+    - name: debug
       ansible.builtin.debug:
         msg: bob password {{ bob_password }}
 
     - name: Add bob
       ansible.builtin.user:
-        name: "bob"
+        name: bob
         state: present
-        groups: "sudo"
+        groups: sudo
         password: "{{ bob_password | password_hash('sha512') }}"
