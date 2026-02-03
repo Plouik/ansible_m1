@@ -5,7 +5,7 @@ vagrant box:
 https://portal.cloud.hashicorp.com/vagrant/discover/debian
 # créer une vm
 vagrant up
-# détruire une vm 
+# détruire une vm
 vagrant destroy
 # ssh private key path
 .vagrant/machines/$NAME/private_key
