@@ -7,8 +7,8 @@
 # you're doing.
 
 cluster = {
-  "one" => { :ip => "192.168.33.10" },
-  "two" => { :ip => "192.168.33.11" }
+  "one" => { :ip => "192.168.33.10" }
+  # "two" => { :ip => "192.168.33.11" }
 }
 
 Vagrant.configure("2") do |config|

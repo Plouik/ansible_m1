@@ -19,3 +19,5 @@ for hostname in "${!vm[@]}"; do
 		echo "OK"
 	fi
 done
+
+ansible-playbook ssh_setup_playbook.yml

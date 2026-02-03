@@ -1,7 +1,13 @@
 ---
 - name: Update hosts entry
-  hosts: all
+  hosts: one
   become: true
   roles:
-    - common
-    - nginx
+    - plouik.sdv.common
+    - plouik.sdv.nginx
+
+- name: Hardening secure host
+  hosts: one
+  become: true
+  roles:
+    - name: devsec.hardening.os_hardening
