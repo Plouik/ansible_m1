@@ -1,0 +1,29 @@
+- name: Cloning git repository
+  ansible.builtin.git:
+    repo: https://github.com/Plouik/ansible_m1.git
+    dest: /root/myapp
+    single_branch: true
+    version: demo_app
+
+- name: Ensure Docker service is running
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Docker compose up
+  community.docker.docker_compose_v2:
+    project_src: /root/myapp
+    state: present
+
+- name: Check web server response
+  ansible.builtin.uri:
+    url: "http://{{ ansible_hostname }}"
+    return_content: true
+  register: response
+
+- name: Verify response contains expected text
+  ansible.builtin.assert:
+    that:
+      - "response.status == 200"
+      - "'DEV' is in response.content"

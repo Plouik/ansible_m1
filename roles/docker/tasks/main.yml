@@ -1,0 +1,5 @@
+---
+- name: Installing docker
+  ansible.builtin.import_tasks: install_docker.yml
+- name: Deploying docker app
+  ansible.builtin.import_tasks: deploy_app.yml
