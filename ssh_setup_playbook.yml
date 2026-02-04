@@ -1,30 +1,80 @@
 ---
-- name: Configure local ssh
+# - name: Configure local ssh
+#   hosts: localhost
+#   become: true
+
+#   tasks:
+#     - name: Copy vagrant key
+#       ansible.builtin.copy:
+#         src: ".vagrant/machines/{{ item }}/virtualbox/private_key"
+#         dest: "/root/.ssh/{{ item }}"
+#         owner: root
+#         group: root
+#         mode: "0400"
+#       loop: "{{ groups.docker }}"
+
+#     - name: Add a host in the configuration
+#       community.general.ssh_config:
+#         remote_user: vagrant
+#         host: "{{ item }}"
+#         hostname: "{{ hostvars[item]['ansible_host'] }}"
+#         identity_file: "{{ hostvars[item]['ansible_ssh_private_key_file'] }}"
+#         state: present
+#       loop: "{{ groups.docker }}"
+
+# - name: Test ssh and become on docker node
+#   hosts: docker
+#   become: true
+#   tasks:
+#     - name: Testing
+#       ansible.builtin.ping:
+
+
+- name: Configuring gitlab-runner
   hosts: localhost
   become: true
-
   tasks:
-    - name: Copy vagrant key
-      ansible.builtin.copy:
-        src: ".vagrant/machines/{{ item }}/virtualbox/private_key"
-        dest: "/root/.ssh/{{ item }}"
+    - name: Download gitlab-runner repo config
+      ansible.builtin.get_url:
+        url: https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh
+        dest: /tmp/gitlab_setup.sh
+        mode: '0700'
+      register: gitlab_script
+
+    - name: Run gitlab repo config script
+      ansible.builtin.script: /tmp/gitlab_setup.sh
+      when: gitlab_script is changed
+
+    - name: Install gitlab-runner
+      ansible.builtin.apt:
+        name: gitlab-runner
+        update_cache: true
+
+    - name: Create a project-level runner
+      community.general.gitlab_runner:
+        api_url: https://gitlab.com/
+        api_token: "{{ gitlab_access_token }}"
+        description: devcontainer
+        state: present
+        active: true
+        project: "78238747"
+      register: runner_register
+
+    - name: New runner token
+      ansible.builtin.debug:
+        msg: "{{ runner_register.runner.token }}"
+      when: runner_register is changed
+
+    - name: Configure gitlab runner
+      ansible.builtin.template:
+        dest: /etc/gitlab-runner/config.toml
+        src: gitlab_runner_config.toml.j2
         owner: root
         group: root
-        mode: "0400"
-      loop: "{{ groups.docker }}"
+        mode: "0600"
 
-    - name: Add a host in the configuration
-      community.general.ssh_config:
-        remote_user: vagrant
-        host: "{{ item }}"
-        hostname: "{{ hostvars[item]['ansible_host'] }}"
-        identity_file: "{{ hostvars[item]['ansible_ssh_private_key_file'] }}"
-        state: present
-      loop: "{{ groups.docker }}"
-
-- name: Test ssh and become on docker node
-  hosts: docker
-  become: true
-  tasks:
-    - name: Testing
-      ansible.builtin.ping:
+    - name: Ensure gitlab-runner service is running
+      ansible.builtin.service:
+        name: gitlab-runner
+        state: restarted
+        enabled: true

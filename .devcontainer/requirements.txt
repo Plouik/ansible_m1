@@ -3,3 +3,5 @@ ansible-creator
 argcomplete
 PARAMIKO
 passlib
+python-gitlab
+requests
