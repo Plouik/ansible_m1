@@ -7,4 +7,4 @@
   tasks:
     - name: Apply role under test
       ansible.builtin.include_role:
-        name: /workspaces/ansible_m1/nginx
+        name: test.nginx

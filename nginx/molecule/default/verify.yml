@@ -5,18 +5,18 @@
   hosts: localhost
   gather_facts: true
   tasks:
-  - name: Collect packages as facts
-    ansible.builtin.package_facts:
+    - name: Collect packages as facts
+      ansible.builtin.package_facts:
 
-  - name: Collect services as facts
-    ansible.builtin.service_facts:
+    - name: Collect services as facts
+      ansible.builtin.service_facts:
 
-  - name: Collect ports as facts
-    community.general.listen_ports_facts:
+    - name: Collect ports as facts
+      community.general.listen_ports_facts:
 
-  - name: Check nginx installed and running
-    ansible.builtin.assert:
-      that:
-      - "'nginx' in ansible_facts.packages"
-      - "ansible_facts.services['nginx'].state == 'running'"
-      - "80 in ansible_facts.tcp_listen | map(attribute='port')"
+    - name: Check nginx installed and running
+      ansible.builtin.assert:
+        that:
+          - "'nginx' in ansible_facts.packages"
+          - "ansible_facts.services['nginx'].state == 'running'"
+          - "80 in ansible_facts.tcp_listen | map(attribute='port')"
