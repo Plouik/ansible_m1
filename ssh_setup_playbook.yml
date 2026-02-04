@@ -1,33 +1,33 @@
 ---
-# - name: Configure local ssh
-#   hosts: localhost
-#   become: true
+- name: Configure local ssh
+  hosts: localhost
+  become: true
 
-#   tasks:
-#     - name: Copy vagrant key
-#       ansible.builtin.copy:
-#         src: ".vagrant/machines/{{ item }}/virtualbox/private_key"
-#         dest: "/root/.ssh/{{ item }}"
-#         owner: root
-#         group: root
-#         mode: "0400"
-#       loop: "{{ groups.docker }}"
+  tasks:
+    - name: Copy vagrant key
+      ansible.builtin.copy:
+        src: ".vagrant/machines/{{ item }}/virtualbox/private_key"
+        dest: "/root/.ssh/{{ item }}"
+        owner: root
+        group: root
+        mode: "0400"
+      loop: "{{ groups.docker }}"
 
-#     - name: Add a host in the configuration
-#       community.general.ssh_config:
-#         remote_user: vagrant
-#         host: "{{ item }}"
-#         hostname: "{{ hostvars[item]['ansible_host'] }}"
-#         identity_file: "{{ hostvars[item]['ansible_ssh_private_key_file'] }}"
-#         state: present
-#       loop: "{{ groups.docker }}"
+    - name: Add a host in the configuration
+      community.general.ssh_config:
+        remote_user: vagrant
+        host: "{{ item }}"
+        hostname: "{{ hostvars[item]['ansible_host'] }}"
+        identity_file: "{{ hostvars[item]['ansible_ssh_private_key_file'] }}"
+        state: present
+      loop: "{{ groups.docker }}"
 
-# - name: Test ssh and become on docker node
-#   hosts: docker
-#   become: true
-#   tasks:
-#     - name: Testing
-#       ansible.builtin.ping:
+- name: Test ssh and become on docker node
+  hosts: docker
+  become: true
+  tasks:
+    - name: Testing
+      ansible.builtin.ping:
 
 
 - name: Configuring gitlab-runner
