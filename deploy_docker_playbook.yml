@@ -1,6 +1,12 @@
 ---
-- name: Run using a project directory
+- name: Deploying docker app
   hosts: docker
   become: true
   roles:
     - docker
+
+- name: Deploying proxy
+  hosts: proxy
+  become: true
+  roles:
+    - plouik.sdv.nginx
