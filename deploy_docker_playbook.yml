@@ -37,7 +37,6 @@
         single_branch: true
         version: demo_app
 
-
     - name: Docker compose up
       community.docker.docker_compose_v2:
         project_src: /root/myapp
