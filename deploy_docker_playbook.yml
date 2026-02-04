@@ -1,0 +1,44 @@
+---
+- name: Run using a project directory
+  hosts: two
+  become: true
+  tasks:
+    - name: Install required system packages
+      ansible.builtin.apt:
+        name:
+          - ca-certificates
+          - curl
+          - gpg
+        update_cache: true
+
+    - name: Add Docker GPG apt Key
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
+        state: present
+
+    - name: Add Docker Repository
+      ansible.builtin.apt_repository:
+        repo: "deb https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+        state: present
+
+    - name: Install docker
+      ansible.builtin.apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+
+    - name: Cloning git repository
+      ansible.builtin.git:
+        repo: https://github.com/Plouik/ansible_m1.git
+        dest: /root/myapp
+        single_branch: true
+        version: demo_app
+
+
+    - name: Docker compose up
+      community.docker.docker_compose_v2:
+        project_src: /root/myapp
+        state: present

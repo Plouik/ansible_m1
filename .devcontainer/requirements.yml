@@ -3,3 +3,4 @@ collections:
 - community.general
 - devsec.hardening
 - plouik.sdv
+- community.docker
