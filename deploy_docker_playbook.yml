@@ -3,7 +3,7 @@
   hosts: docker
   become: true
   roles:
-    - docker
+    - ../plouik/sdv/roles/docker
 
 - name: Deploying proxy
   hosts: proxy
