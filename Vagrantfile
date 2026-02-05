@@ -14,8 +14,8 @@ cluster = {
 Vagrant.configure("2") do |config|
   cluster.each_with_index do |(hostname, info), index|
     config.vm.define hostname do |cfg|
-      cfg.vm.box = "debian/bullseye64"
-      cfg.vm.box_version = "11.20241217.1"
+      cfg.vm.box = "debian/bookworm64"
+      cfg.vm.box_version = "12.20250126.1"
       cfg.vm.hostname = hostname
       cfg.vm.network "private_network", ip: "#{info[:ip]}"
     end
