@@ -13,11 +13,17 @@
         mode: "0400"
       loop: "{{ groups.docker }}"
 
+    - name: Remove old known host
+      ansible.builtin.file:
+        path: "/root/.ssh/known_hosts"
+        state: absent
+
     - name: Add a host in the configuration
       community.general.ssh_config:
         remote_user: vagrant
         host: "{{ item }}"
         hostname: "{{ hostvars[item]['ansible_host'] }}"
+        strict_host_key_checking: false
         identity_file: "{{ hostvars[item]['ansible_ssh_private_key_file'] }}"
         state: present
       loop: "{{ groups.docker }}"
@@ -50,6 +56,16 @@
         name: gitlab-runner
         update_cache: true
 
+    - name: Ensure runner is absent
+      community.general.gitlab_runner:
+        api_url: https://gitlab.com/
+        api_token: "{{ gitlab_access_token }}"
+        description: devcontainer
+        state: absent
+        active: true
+        project: "78238747"
+      register: runner_register
+
     - name: Create a project-level runner
       community.general.gitlab_runner:
         api_url: https://gitlab.com/
@@ -63,7 +79,6 @@
     - name: New runner token
       ansible.builtin.debug:
         msg: "{{ runner_register.runner.token }}"
-      when: runner_register is changed
 
     - name: Configure gitlab runner
       ansible.builtin.template:
