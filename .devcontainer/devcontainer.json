@@ -11,7 +11,7 @@
 		"ghcr.io/devcontainers-extra/features/apt-packages:1": {},
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
-  "runArgs": ["--network=host"],
+  // "runArgs": ["--network=host"],
   "remoteUser": "root",
   "postCreateCommand": "apt update && apt install dos2unix && find . -type f -print0 | xargs -0 dos2unix && chmod 700 .devcontainer/setup.sh && ./.devcontainer/setup.sh",
   "customizations": {

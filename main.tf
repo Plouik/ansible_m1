@@ -26,19 +26,23 @@ resource "docker_container" "frontend" {
     internal = 80
     external = 80
   }
-  networks_advanced {
-    name = docker_network.configuration_network.name
-  }
+#   networks_advanced {
+#     name = docker_network.configuration_network.name
+#   }
 }
 
 resource "docker_container" "backend" {
   image = docker_image.backend.image_id
   name  = "backend"
-  networks_advanced {
-    name = docker_network.configuration_network.name
+    ports {
+    internal = 80
+    external = 7000
   }
+#   networks_advanced {
+#     name = docker_network.configuration_network.name
+#   }
 }
 
-resource "docker_network" "configuration_network" {
-  name = "configuration_network"
-}
+# resource "docker_network" "configuration_network" {
+#   name = "configuration_network"
+# }
