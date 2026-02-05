@@ -15,7 +15,7 @@
   "postCreateCommand": "apt update && apt install dos2unix && find . -type f -print0 | xargs -0 dos2unix && chmod 700 .devcontainer/setup.sh && ./.devcontainer/setup.sh",
   "customizations": {
     "vscode": {
-      "extensions": ["redhat.ansible", "hashicorp.terraform", "trunk.io", "ms-azuretools.vscode-containers"],
+      "extensions": ["redhat.ansible", "hashicorp.terraform", "trunk.io"],
       "settings": {
         "ansible.python.interpreterPath": "/bin/python3"
       }
