@@ -8,8 +8,7 @@
     "ghcr.io/devcontainers/features/terraform:1": {},
     "ghcr.io/hspaans/devcontainer-features/ansible-lint:2": {},
     "ghcr.io/devcontainers-extra/features/ansible:2": {},
-		"ghcr.io/devcontainers-extra/features/apt-packages:1": {},
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+		"ghcr.io/devcontainers-extra/features/apt-packages:1": {}
   },
   "runArgs": ["--network=host"],
   "remoteUser": "root",
