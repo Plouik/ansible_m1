@@ -35,6 +35,8 @@ L’application demo_app doit être accessible depuis un reverse proxy
 
 - Utiliser un gestionnaire de secret externe (vault ou autre) et récupérer dynamiquement les secrets du playbook
 
+- Utiliser ansible pull pour lancer un playbook d'installation sur la VM
+
 ## Docker / Terraform
 
 - Push les images docker sur le docker hub par terraform
