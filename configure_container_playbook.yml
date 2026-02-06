@@ -71,7 +71,7 @@
         description: devcontainer
         state: present
         active: true
-        project: "78238747"
+        project: "{{ gitlab_project_id }}"
       register: runner_register
 
     - name: New runner token
