@@ -37,6 +37,8 @@ L’application demo_app doit être accessible depuis un reverse proxy
 
 - Utiliser ansible pull pour lancer un playbook d'installation sur la VM
 
+- Configurer le reverse proxy du devcontainer pour avoir une configuration par branche
+
 ## Docker / Terraform
 
 - Push les images docker sur le docker hub par terraform
