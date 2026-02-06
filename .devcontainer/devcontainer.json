@@ -18,7 +18,7 @@
     "vscode": {
       "extensions": ["redhat.ansible", "hashicorp.terraform", "trunk.io", "ms-azuretools.vscode-containers"],
       "settings": {
-        "ansible.python.interpreterPath": "/bin/python3"
+        "ansible.python.interpreterPath": "/usr/bin/python3"
       }
     }
   }
