@@ -49,7 +49,6 @@
 
     - name: Run gitlab repo config script
       ansible.builtin.script: /tmp/gitlab_setup.sh
-      when: gitlab_script is changed
 
     - name: Install gitlab-runner
       ansible.builtin.apt:
@@ -64,7 +63,6 @@
         state: absent
         active: true
         project: "78238747"
-      register: runner_register
 
     - name: Create a project-level runner
       community.general.gitlab_runner:
