@@ -62,7 +62,7 @@
         description: devcontainer
         state: absent
         active: true
-        project: "78238747"
+        project: "{{ gitlab_project_id }}"
 
     - name: Create a project-level runner
       community.general.gitlab_runner:
