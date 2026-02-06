@@ -1,7 +1,7 @@
 # Déploiement DevOps de l’application demo_app
 ## Objectif
 
-L’object final est de déployer notre application demo_app avec docker par terraform sur une VM.
+L’object final est de déployer notre application demo_app avec docker par terraform depuis sur une VM custom.
 Le déploiement doit suivre un workflow devops en partant de gitlab.
 
 - Déployer depuis la branche main :
