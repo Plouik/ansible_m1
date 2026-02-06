@@ -1,9 +1,4 @@
 provider "docker" {
-  registry_auth {
-    address = "registry-1.docker.io"
-    username = "olivierdsm"
-    password = "dckr_pat_IAAip57sJU2PPc5Ma-yqBG3jzG0"
-  }
 }
 
 resource "docker_image" "frontend" {
@@ -51,11 +46,4 @@ resource "docker_container" "backend" {
 
 resource "docker_network" "configuration_network" {
   name = "configuration_network"
-}
-
-
-resource "docker_registry_image" "helloworld" {
-  for_each = toset([docker_image.frontend.name, docker_image.backend.name])
-  name          = each.key
-  keep_remotely = false
 }
