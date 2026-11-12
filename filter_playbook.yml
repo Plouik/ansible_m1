@@ -25,7 +25,7 @@
 
     - name: Afficher uniquement le nom des utilisateurs en MAJUSCULE
       ansible.builtin.debug:
-        msg: "user name majuscule: {{ users | map(attribute='name') | upper }}"
+        msg: "user name majuscule: {{ users | map(attribute='lastname') | upper }}"
 
     - name: Selectionner l'element de la liste user dont le lastname est "dupond"
       ansible.builtin.debug:
