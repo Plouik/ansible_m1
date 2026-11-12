@@ -1,6 +1,6 @@
 server {
     listen 80;
-
+    server_name one; 
     location / {
         proxy_pass http://two/{{ nginx_html_pagename }};
         proxy_set_header Host $host;

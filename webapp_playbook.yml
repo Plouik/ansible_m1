@@ -1,5 +1,5 @@
 ---
-- name: Remove legacy repo
+- name: Setup
   hosts: all
   become: true
   tasks:
@@ -9,12 +9,19 @@
         state: absent
         update_cache: true
 
-- name: Update web servers
-  hosts: one
-  become: true
-  tasks:
+    - name: Debug ip addresses
+      ansible.builtin.debug:
+        msg: "{{ ansible_hostname }} ipv4 is : {{ ansible_facts['eth1']['ipv4']['address'] }}"
 
-    - name: Ensure nginx is at the present version
+    - name: Add IP address of all hosts to all hosts
+      ansible.builtin.lineinfile:
+        dest: /etc/hosts
+        regexp: ".*{{ item }}$"
+        line: "{{ hostvars[item]['eth1']['ipv4']['address'] }} {{ item }}"
+        state: present
+      with_items: "{{ groups.all }}"
+
+    - name: Ensure curl is at the present version
       ansible.builtin.apt:
         name: "{{ item }}"
         update_cache: true
@@ -23,6 +30,15 @@
         - nginx
         - curl
 
+    - name: Supprimier le server nginx par default
+      ansible.builtin.file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+- name: Update web servers
+  hosts: one
+  become: true
+  tasks:
+
     - name: Copier la configuration nginx
       ansible.builtin.template:
         dest: /etc/nginx/conf.d/default.conf
@@ -30,12 +46,6 @@
         owner: root
         group: root
         mode: "0644"
-      notify: Reload nginx
-
-    - name: Supprimier le server nginx par default
-      ansible.builtin.file:
-        path: /etc/nginx/sites-enabled/default
-        state: absent
       notify: Reload nginx
 
   handlers:
@@ -48,14 +58,6 @@
   hosts: two
   become: true
   tasks:
-    - name: Ensure nginx is at the present version
-      ansible.builtin.apt:
-        name: "{{ item }}"
-        update_cache: true
-        state: present
-      loop:
-        - nginx
-        - curl
 
     - name: Copier le html dans le dossier dédié
       ansible.builtin.template:
