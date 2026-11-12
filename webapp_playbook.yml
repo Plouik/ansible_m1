@@ -1,23 +1,19 @@
 ---
-- name: Update hosts entry
+- name: Remove legacy repo
   hosts: all
   become: true
   tasks:
-    - name: Print a debug message
-      ansible.builtin.debug:
-        msg: "{{ hostvars['one']['ansible_eth1']['ipv4']['address'] }}"
+    - name: Remove Debian security repo
+      ansible.builtin.apt_repository:
+        repo: 'deb https://security.debian.org/debian-security bullseye-security main'
+        state: absent
+        update_cache: true
 
-    - name: Add IP address of all hosts to all hosts
-      ansible.builtin.lineinfile:
-        dest: /etc/hosts
-        regexp: ".*{{ item }}$"
-        line: "{{ hostvars[item]['ansible_eth1']['ipv4']['address'] }} {{item}}"
-        state: present
-      with_items: "{{ groups.all }}"
 - name: Update web servers
   hosts: one
   become: true
   tasks:
+
     - name: Ensure nginx is at the present version
       ansible.builtin.apt:
         name: "{{ item }}"
