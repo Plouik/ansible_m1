@@ -24,7 +24,7 @@
     - name: Ensure curl is at the present version
       ansible.builtin.apt:
         name: "{{ item }}"
-        update_cache: true
+        update_cache: false
         state: present
       loop:
         - nginx
