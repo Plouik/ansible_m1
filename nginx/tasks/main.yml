@@ -1,4 +1,4 @@
-#SPDX-License-Identifier: MIT-0
+# SPDX-License-Identifier: MIT-0
 ---
 # tasks file for nginx
 - name: Ensure nginx is at the present version
@@ -7,24 +7,24 @@
     update_cache: true
     state: present
 
-- name: Configure {{ ansible_hostname }} using custom configuration
+- name: Configure using custom configuration for {{ ansible_hostname }}
   ansible.builtin.template:
     dest: /etc/nginx/conf.d/default.conf
     src: "{{ ansible_hostname }}/nginx.conf.j2"
     owner: root
     group: root
     mode: "0644"
-  when: '"templates/{{ ansible_hostname }}/nginx.conf.j2" is exists'
+  when: '"templates/{{ inventory_hostname }}/nginx.conf.j2" is exists'
   notify: Reload nginx
 
-- name: Configure {{ ansible_hostname }} using custom html
+- name: Configure using custom html for {{ ansible_hostname }}
   ansible.builtin.template:
     dest: /var/www/html/
     src: "{{ item }}"
     owner: root
     group: root
     mode: "0644"
-  loop: "{{ lookup('ansible.builtin.fileglob', 'templates/'+ansible_hostname+'/html/*', wantlist=True) }}"
+  loop: "{{ lookup('ansible.builtin.fileglob', 'templates/' + ansible_hostname + '/html/*', wantlist=True) }}"
 
 - name: Supprimier le server nginx par default
   ansible.builtin.file:
